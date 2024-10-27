@@ -58,17 +58,24 @@ const Gameboard = (function () {
     const checkDiagonals = (player) => {
         let diagonalStringLtR = "";
         let diagonalStringRtL = "";
-        for(let row in board){
-            diagonalStringLtR+=board[row][row];
-            diagonalStringRtL+=board[row][board.length-1-row];
+        for (let row in board) {
+            diagonalStringLtR += board[row][row];
+            diagonalStringRtL += board[row][board.length - 1 - row];
         }
-        if(diagonalStringLtR===player.getWinningString() || diagonalStringRtL===player.getWinningString()){
+        if (
+            diagonalStringLtR === player.getWinningString() ||
+            diagonalStringRtL === player.getWinningString()
+        ) {
             return true;
         }
     };
 
     const checkWin = (player) => {
-        if (checkRows(player) || checkColumns(player) || checkDiagonals(player)) {
+        if (
+            checkRows(player) ||
+            checkColumns(player) ||
+            checkDiagonals(player)
+        ) {
             return true;
         }
     };
@@ -82,36 +89,87 @@ const Gameboard = (function () {
     };
 })();
 
-//iife
-(function () {
-    const player1name = prompt("Enter player 1's name.");
-    const player2name = prompt("Enter player 2's name.");
-    const player1 = createPlayer(player1name, "x");
-    const player2 = createPlayer(player2name, "o");
-    const players = [player1, player2];
+function Controller() {
+    const getPlayers = () => {
+        const player1name = prompt("Enter player 1's name.");
+        const player2name = prompt("Enter player 2's name.");
+        const player1 = createPlayer(player1name, "x");
+        const player2 = createPlayer(player2name, "o");
+        const players = [player1, player2];
+        return players;
+    };
 
-    let currentPlayer = players[0];
+    const playerArray = getPlayers();
+    let currentPlayer = playerArray[0];
+    console.log(currentPlayer);
     const getCurrent = () => currentPlayer;
 
     const switchPlayer = () => {
-        if (currentPlayer === players[0]) {
-            currentPlayer = players[1];
+        if (currentPlayer === playerArray[0]) {
+            currentPlayer = playerArray[1];
         } else {
-            currentPlayer = players[0];
+            currentPlayer = playerArray[0];
         }
     };
 
-    while (true) {
-        //wrap all this in a function, returns true if game not won, false if won
-        Gameboard.displayBoard();
-        console.log(getCurrent().getName() + "'s turn");
-        const row = prompt("Enter row");
-        const column = prompt("Enter column.");
-        Gameboard.setSquare(row, column, getCurrent());
-        if (Gameboard.checkWin(getCurrent())) {
-            alert("win");
-            break;
+    const playGame = () => {
+        while (true) {
+            Gameboard.displayBoard();
+            console.log(getCurrent().getName() + "'s turn");
+            const row = prompt("Enter row");
+            const column = prompt("Enter column.");
+            Gameboard.setSquare(row, column, getCurrent());
+            if (Gameboard.checkWin(getCurrent())) {
+                alert("win");
+                return false;
+            }
+            switchPlayer();
         }
-        switchPlayer();
-    }
-})();
+    };
+
+    return {
+        getPlayers,
+        getCurrent,
+        switchPlayer,
+        playGame,
+    };
+}
+
+//iife
+// (function () {
+//     // const player1name = prompt("Enter player 1's name.");
+//     // const player2name = prompt("Enter player 2's name.");
+//     // const player1 = createPlayer(player1name, "x");
+//     // const player2 = createPlayer(player2name, "o");
+//     // const players = [player1, player2];
+
+//     // let currentPlayer = players[0];
+//     // const getCurrent = () => currentPlayer;
+
+//     // const switchPlayer = () => {
+//     //     if (currentPlayer === players[0]) {
+//     //         currentPlayer = players[1];
+//     //     } else {
+//     //         currentPlayer = players[0];
+//     //     }
+//     // };
+
+//     while (true) {
+//         //wrap all this in a function, returns true if game not won, false if won
+
+//         Gameboard.displayBoard();
+//         console.log(getCurrent().getName() + "'s turn");
+//         const row = prompt("Enter row");
+//         const column = prompt("Enter column.");
+//         Gameboard.setSquare(row, column, getCurrent());
+//         if (Gameboard.checkWin(getCurrent())) {
+//             alert("win");
+//             break;
+//         }
+//         switchPlayer();
+//         // playRound();
+//     }
+// })();
+const controller = Controller();
+controller.getPlayers();
+controller.playGame();
