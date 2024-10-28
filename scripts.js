@@ -9,13 +9,24 @@ function createPlayer(name, symbol) {
 
 const Gameboard = (function () {
     let board = [
-        [" ", " ", "x"],
         [" ", " ", " "],
-        ["x", " ", " "],
+        [" ", " ", " "],
+        [" ", " ", " "],
     ];
 
-    const displayBoard = () =>
-        board.forEach((row) => console.log(row.join("|")));
+    const displayBoard = () => {
+        const ticBoard = document.querySelector(".board");
+        board.forEach((row) => {
+            row.forEach((col) => {
+                const tile = document.createElement("div");
+                tile.setAttribute("class", "tile");
+                // tile.addEventListener("click", setSquare());
+                tile.textContent = col;
+                ticBoard.appendChild(tile);
+            })
+        })
+    };
+    // board.forEach((row) => console.log(row.join("|")));
 
     const getSquare = (row, column) => board[row][column];
 
@@ -135,7 +146,6 @@ function Controller() {
     };
 }
 
-//iife
 // (function () {
 //     // const player1name = prompt("Enter player 1's name.");
 //     // const player2name = prompt("Enter player 2's name.");
@@ -170,6 +180,10 @@ function Controller() {
 //         // playRound();
 //     }
 // })();
-const controller = Controller();
-controller.getPlayers();
-controller.playGame();
+
+//THIS IS USED, DONT DELETE, THIS IS COMMENTED SO POP UPS STOP
+// const controller = Controller();
+
+// controller.playGame();
+
+Gameboard.displayBoard();

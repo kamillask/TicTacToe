@@ -3,12 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="./scripts.js"></script>
+    <script src="./scripts.js" defer></script>
     <link rel="stylesheet" href="./styles.css">
     <link rel="icon" href="./images/favicon.png">
     <title>TicTacToe</title>
 </head>
 <body>
-    
+    <div class="content">
+        <div class="createPlayersDialog">
+            <form action="#" id="playerForm">
+                <label for="player1">Player 1: </label>
+                <input type="text" name="player1Name" id="player1Name">
+                <fieldset>
+                    <legend>Symbol</legend>
+                    <div class="radioButtons">
+                        <input type="radio" id="player1SymbolX" name="player1Symbol" value="X">
+                        <label for="player1SymbolX">X</label>
+                        <input type="radio" id="player1SymbolO" name="player1Symbol" value="O">
+                        <label for="player1SymbolO">O</label>
+                    </div>
+                </fieldset>
+                <label for="player1">Player 2: </label>
+                <input type="text" name="player2Name" id="player2Name">
+                <fieldset>
+                    <legend>Symbol</legend>
+                    <div class="radioButtons">
+                        <input type="radio" id="player2SymbolX" name="player2Symbol" value="X">
+                        <label for="player2SymbolX">X</label>
+                        <input type="radio" id="player2SymbolO" name="player2Symbol" value="O">
+                        <label for="player2SymbolO">O</label>
+                    </div>
+                </fieldset>
+                <button id="startGame">Start Game!</button>
+            </form>
+        </div>
+        <div class="board"></div>
+    </div>
 </body>
 </html>
