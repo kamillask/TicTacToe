@@ -8,25 +8,32 @@ function createPlayer(name, symbol) {
 }
 
 const Gameboard = (function () {
+    const ticBoard = document.querySelector(".board");
+    //this was in display board, first line
+
     let board = [
         [" ", " ", " "],
         [" ", " ", " "],
         [" ", " ", " "],
     ];
 
+    const clearBoard = () => {
+        while(ticBoard.firstChild){
+            ticBoard.removeChild(ticBoard.firstChild);
+        }
+    }
+
     const displayBoard = () => {
-        const ticBoard = document.querySelector(".board");
-        board.forEach((row) => {
-            row.forEach((col) => {
+        board.forEach((row, rowIndex) => {
+            row.forEach((col, columnIndex) => {
                 const tile = document.createElement("div");
                 tile.setAttribute("class", "tile");
-                // tile.addEventListener("click", setSquare());
+                tile.setAttribute("id", rowIndex + " " + columnIndex);
                 tile.textContent = col;
                 ticBoard.appendChild(tile);
-            })
-        })
+            });
+        });
     };
-    // board.forEach((row) => console.log(row.join("|")));
 
     const getSquare = (row, column) => board[row][column];
 
@@ -97,22 +104,44 @@ const Gameboard = (function () {
         setSquare,
         resetBoard,
         checkWin,
+        clearBoard
     };
 })();
 
 function Controller() {
-    const getPlayers = () => {
-        const player1name = prompt("Enter player 1's name.");
-        const player2name = prompt("Enter player 2's name.");
-        const player1 = createPlayer(player1name, "x");
-        const player2 = createPlayer(player2name, "o");
-        const players = [player1, player2];
-        return players;
+    const startButton = document.querySelector("#startGame");
+    const playerArray = [];
+
+    const addFunctionToTiles = () => {
+        const tileFunction = document.querySelectorAll(".tile");
+        tileFunction.forEach(function (div) {
+            div.addEventListener("click", (event) => {
+                let target = event.target;
+                const targetIDsplit = target.id.split(" ");
+                const selectedRow = targetIDsplit[0];
+                const selectedColumn = targetIDsplit[1];
+                Gameboard.setSquare(selectedRow, selectedColumn, getCurrent());
+                Gameboard.clearBoard();
+                playGame();
+            });
+        });
     };
 
-    const playerArray = getPlayers();
-    let currentPlayer = playerArray[0];
-    console.log(currentPlayer);
+    let currentPlayer;
+    const getPlayers = () => {
+        const player1name = document.querySelector("#player1Name").value;
+        const player2name = document.querySelector("#player2Name").value;
+        const player1 = createPlayer(player1name, "x");
+        const player2 = createPlayer(player2name, "o");
+        playerArray.push(player1);
+        playerArray.push(player2);
+        currentPlayer = playerArray[0];
+        Gameboard.displayBoard();
+        addFunctionToTiles();
+        // playGame();
+    };
+    startButton.addEventListener("click", getPlayers);
+
     const getCurrent = () => currentPlayer;
 
     const switchPlayer = () => {
@@ -124,18 +153,17 @@ function Controller() {
     };
 
     const playGame = () => {
-        while (true) {
             Gameboard.displayBoard();
+            addFunctionToTiles();
             console.log(getCurrent().getName() + "'s turn");
-            const row = prompt("Enter row");
-            const column = prompt("Enter column.");
-            Gameboard.setSquare(row, column, getCurrent());
+            // const row = prompt("Enter row");
+            // const column = prompt("Enter column.");
+            //
             if (Gameboard.checkWin(getCurrent())) {
                 alert("win");
                 return false;
             }
             switchPlayer();
-        }
     };
 
     return {
@@ -146,44 +174,8 @@ function Controller() {
     };
 }
 
-// (function () {
-//     // const player1name = prompt("Enter player 1's name.");
-//     // const player2name = prompt("Enter player 2's name.");
-//     // const player1 = createPlayer(player1name, "x");
-//     // const player2 = createPlayer(player2name, "o");
-//     // const players = [player1, player2];
-
-//     // let currentPlayer = players[0];
-//     // const getCurrent = () => currentPlayer;
-
-//     // const switchPlayer = () => {
-//     //     if (currentPlayer === players[0]) {
-//     //         currentPlayer = players[1];
-//     //     } else {
-//     //         currentPlayer = players[0];
-//     //     }
-//     // };
-
-//     while (true) {
-//         //wrap all this in a function, returns true if game not won, false if won
-
-//         Gameboard.displayBoard();
-//         console.log(getCurrent().getName() + "'s turn");
-//         const row = prompt("Enter row");
-//         const column = prompt("Enter column.");
-//         Gameboard.setSquare(row, column, getCurrent());
-//         if (Gameboard.checkWin(getCurrent())) {
-//             alert("win");
-//             break;
-//         }
-//         switchPlayer();
-//         // playRound();
-//     }
-// })();
-
 //THIS IS USED, DONT DELETE, THIS IS COMMENTED SO POP UPS STOP
-// const controller = Controller();
-
+const controller = Controller();
 // controller.playGame();
 
-Gameboard.displayBoard();
+// Gameboard.displayBoard();
