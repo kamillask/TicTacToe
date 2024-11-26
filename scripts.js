@@ -9,7 +9,7 @@ function createPlayer(name, symbol) {
 
 const Gameboard = (function () {
     const ticBoard = document.querySelector(".board");
-    //this was in display board, first line
+    let symbolCount = 0;
 
     let board = [
         [" ", " ", " "],
@@ -18,10 +18,10 @@ const Gameboard = (function () {
     ];
 
     const clearBoard = () => {
-        while(ticBoard.firstChild){
+        while (ticBoard.firstChild) {
             ticBoard.removeChild(ticBoard.firstChild);
         }
-    }
+    };
 
     const displayBoard = () => {
         board.forEach((row, rowIndex) => {
@@ -40,6 +40,7 @@ const Gameboard = (function () {
     const setSquare = (row, column, player) => {
         if (board[row][column] === " ") {
             board[row][column] = player.getSymbol();
+            symbolCount++;
         } else {
             alert("Space already occupied.");
         }
@@ -51,6 +52,7 @@ const Gameboard = (function () {
             [" ", " ", " "],
             [" ", " ", " "],
         ];
+        symbolCount = 0;
     };
 
     const checkRows = (player) => {
@@ -98,19 +100,27 @@ const Gameboard = (function () {
         }
     };
 
+    const checkTie = () => {
+        if(symbolCount===9){
+            return true;
+        }
+    }
+
     return {
         displayBoard,
         getSquare,
         setSquare,
         resetBoard,
         checkWin,
-        clearBoard
+        clearBoard,
+        checkTie,
     };
 })();
 
 function Controller() {
     const startButton = document.querySelector("#startGame");
-    const playerArray = [];
+    const currentPlayerDisplay = document.querySelector(".currentPlayer");
+    let playerArray = [];
 
     const addFunctionToTiles = () => {
         const tileFunction = document.querySelectorAll(".tile");
@@ -127,18 +137,28 @@ function Controller() {
         });
     };
 
+
     let currentPlayer;
     const getPlayers = () => {
         const player1name = document.querySelector("#player1Name").value;
         const player2name = document.querySelector("#player2Name").value;
-        const player1 = createPlayer(player1name, "x");
-        const player2 = createPlayer(player2name, "o");
-        playerArray.push(player1);
-        playerArray.push(player2);
-        currentPlayer = playerArray[0];
-        Gameboard.displayBoard();
-        addFunctionToTiles();
-        // playGame();
+        const player1symbol = document.querySelector("input[name='player1Symbol']:checked").value;
+        const player2symbol = document.querySelector("input[name='player2Symbol']:checked").value;
+        if (player1symbol === player2symbol) {
+            alert("Symbols must be unique.");
+        } else {
+            playerArray = [];
+            const player1 = createPlayer(player1name, player1symbol);
+            const player2 = createPlayer(player2name, player2symbol);
+            playerArray.push(player1);
+            playerArray.push(player2);
+            currentPlayer = playerArray[0];
+            Gameboard.clearBoard();
+            Gameboard.resetBoard();
+            Gameboard.displayBoard();
+            currentPlayerDisplay.textContent = getCurrent().getName() + "'s turn (" + getCurrent().getSymbol() + ")";
+            addFunctionToTiles();
+        }
     };
     startButton.addEventListener("click", getPlayers);
 
@@ -153,17 +173,20 @@ function Controller() {
     };
 
     const playGame = () => {
-            Gameboard.displayBoard();
-            addFunctionToTiles();
-            console.log(getCurrent().getName() + "'s turn");
-            // const row = prompt("Enter row");
-            // const column = prompt("Enter column.");
-            //
-            if (Gameboard.checkWin(getCurrent())) {
-                alert("win");
-                return false;
-            }
-            switchPlayer();
+        Gameboard.displayBoard();
+        addFunctionToTiles();
+        //currentPlayerDisplay.textContent = getCurrent().getName() + "'s turn(" + getCurrent().getSymbol() + ")";
+        if (Gameboard.checkWin(getCurrent())) {
+            Gameboard.resetBoard();
+            currentPlayerDisplay.textContent = getCurrent().getName().toUpperCase() + " WINS!";
+            return;
+        } else if(Gameboard.checkTie()){
+            Gameboard.resetBoard();
+            currentPlayerDisplay.textContent = "IT'S A TIE!";
+            return;
+        }
+        switchPlayer();
+        currentPlayerDisplay.textContent = getCurrent().getName() + "'s turn(" + getCurrent().getSymbol() + ")";
     };
 
     return {
@@ -174,8 +197,4 @@ function Controller() {
     };
 }
 
-//THIS IS USED, DONT DELETE, THIS IS COMMENTED SO POP UPS STOP
 const controller = Controller();
-// controller.playGame();
-
-// Gameboard.displayBoard();

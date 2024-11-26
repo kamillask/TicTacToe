@@ -17,7 +17,7 @@
                 <fieldset>
                     <legend>Symbol</legend>
                     <div class="radioButtons">
-                        <input type="radio" id="player1SymbolX" name="player1Symbol" value="X" required>
+                        <input type="radio" id="player1SymbolX" name="player1Symbol" value="X" required checked>
                         <label for="player1SymbolX">X</label>
                         <input type="radio" id="player1SymbolO" name="player1Symbol" value="O" required>
                         <label for="player1SymbolO">O</label>
@@ -30,13 +30,14 @@
                     <div class="radioButtons">
                         <input type="radio" id="player2SymbolX" name="player2Symbol" value="X" required>
                         <label for="player2SymbolX">X</label>
-                        <input type="radio" id="player2SymbolO" name="player2Symbol" value="O" required>
+                        <input type="radio" id="player2SymbolO" name="player2Symbol" value="O" required checked>
                         <label for="player2SymbolO">O</label>
                     </div>
                 </fieldset>
                 <button type="button" id="startGame">Start Game!</button>
             </form>
         </div>
+        <div class="currentPlayer"></div>
         <div class="board"></div>
     </div>
 </body>
