@@ -1,10 +1,14 @@
 function createPlayer(name, symbol) {
     symbol: symbol;
     name: name;
+    let score = 0;
+
+    const addScore = () => score++;
+    const getScore = () => score;
     const getWinningString = () => symbol + symbol + symbol;
     const getName = () => name;
     const getSymbol = () => symbol;
-    return { getName, getSymbol, getWinningString };
+    return { getName, getSymbol, getWinningString, addScore, getScore };
 }
 
 const Gameboard = (function () {
@@ -42,7 +46,8 @@ const Gameboard = (function () {
             board[row][column] = player.getSymbol();
             symbolCount++;
         } else {
-            alert("Space already occupied.");
+            // alert("Space already occupied.");
+            return false;
         }
     };
 
@@ -120,6 +125,7 @@ const Gameboard = (function () {
 function Controller() {
     const startButton = document.querySelector("#startGame");
     const currentPlayerDisplay = document.querySelector(".currentPlayer");
+    const scoreboardContainer = document.querySelector(".scoreboard");
     let playerArray = [];
 
     const addFunctionToTiles = () => {
@@ -130,6 +136,10 @@ function Controller() {
                 const targetIDsplit = target.id.split(" ");
                 const selectedRow = targetIDsplit[0];
                 const selectedColumn = targetIDsplit[1];
+                if(Gameboard.setSquare(selectedRow, selectedColumn, getCurrent())===false){
+                    // alert("selected square full");
+                    return;
+                }
                 Gameboard.setSquare(selectedRow, selectedColumn, getCurrent());
                 Gameboard.clearBoard();
                 playGame();
@@ -146,7 +156,9 @@ function Controller() {
         const player2symbol = document.querySelector("input[name='player2Symbol']:checked").value;
         if (player1symbol === player2symbol) {
             alert("Symbols must be unique.");
-        } else {
+        } else  if(player1name==="" || player2name==="") {
+            alert("Please enter a name.")
+        }else {
             playerArray = [];
             const player1 = createPlayer(player1name, player1symbol);
             const player2 = createPlayer(player2name, player2symbol);
@@ -175,8 +187,8 @@ function Controller() {
     const playGame = () => {
         Gameboard.displayBoard();
         addFunctionToTiles();
-        //currentPlayerDisplay.textContent = getCurrent().getName() + "'s turn(" + getCurrent().getSymbol() + ")";
         if (Gameboard.checkWin(getCurrent())) {
+            getCurrent().addScore();
             Gameboard.resetBoard();
             currentPlayerDisplay.textContent = getCurrent().getName().toUpperCase() + " WINS!";
             return;

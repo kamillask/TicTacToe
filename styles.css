@@ -7,13 +7,60 @@ body, html{
     height: 100%;
     width: 100%;
     box-sizing: border-box;
+    background-color: #2b4162;
+    background-image: linear-gradient(315deg, #2b4162 0%, #12100e 74%);
+
 }
 
-.createPlayersDialog{
+
+#playerForm{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 10px;
+}
+
+input{
+    border-radius: 5px;
+    border: 2px solid black;
+    padding: 3px 7px;
+}
+
+input:hover, input:focus{
+    border: 2px solid black;
+    box-shadow: inset 0 0 4px black;
+}
+
+.playerSet{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.player{
+    background-color: #2B4162;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+fieldset{
+    padding: 0px 7px;
+}
+
+#startGame{
+    font-size: 1.5rem;
+    width: 100%;
+    background-color: white;
+    border-radius: 5px;
+    border: 2px solid black;
+    padding: 3px 7px;
+}
+
+#startGame:hover{
+    box-shadow: inset 0 0 7px black;
 }
 
 .content{
@@ -25,21 +72,39 @@ body, html{
     gap: 20px;
 }
 
+.currentPlayer{
+    color: white;
+}
+
 .board{
-    width: 50vw;
+    /* width: 50vw; */
     display: grid;
     grid-template-columns: 200px 200px 200px;
-    /* grid-template-rows: 1fr 1fr 1fr; */
     gap: 0;
     align-items: center;
 }
 
 .tile{
     border: 1px solid black;
+    background-color: white;
+    color: black;
     height: 200px;
     width: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 5rem;
+}
+
+.tile:hover{
+    box-shadow: inset 0 0 10px black;
+}
+
+.footer{
+    display: flex;
+    justify-content: center;
+    color: white;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }

@@ -12,33 +12,44 @@
     <div class="content">
         <div class="createPlayersDialog">
             <form action="#" id="playerForm">
-                <label for="player1">Player 1: </label>
-                <input type="text" name="player1Name" id="player1Name" required>
-                <fieldset>
-                    <legend>Symbol</legend>
-                    <div class="radioButtons">
-                        <input type="radio" id="player1SymbolX" name="player1Symbol" value="X" required checked>
-                        <label for="player1SymbolX">X</label>
-                        <input type="radio" id="player1SymbolO" name="player1Symbol" value="O" required>
-                        <label for="player1SymbolO">O</label>
+                <div class="playerSet">
+                    <div class="player">
+                        <label for="player1">Player 1: </label>
+                        <input type="text" name="player1Name" id="player1Name" required>
+                        <fieldset>
+                            <legend>Symbol</legend>
+                            <div class="radioButtons">
+                                <input type="radio" id="player1SymbolX" name="player1Symbol" value="X" required checked>
+                                <label for="player1SymbolX">X</label>
+                                <input type="radio" id="player1SymbolO" name="player1Symbol" value="O" required>
+                                <label for="player1SymbolO">O</label>
+                            </div>
+                        </fieldset>
                     </div>
-                </fieldset>
-                <label for="player1">Player 2: </label>
-                <input type="text" name="player2Name" id="player2Name" required>
-                <fieldset>
-                    <legend>Symbol</legend>
-                    <div class="radioButtons">
-                        <input type="radio" id="player2SymbolX" name="player2Symbol" value="X" required>
-                        <label for="player2SymbolX">X</label>
-                        <input type="radio" id="player2SymbolO" name="player2Symbol" value="O" required checked>
-                        <label for="player2SymbolO">O</label>
+                    <div class="player">
+                        <label for="player2">Player 2: </label>
+                        <input type="text" name="player2Name" id="player2Name" required>
+                        <fieldset>
+                            <legend>Symbol</legend>
+                            <div class="radioButtons">
+                                <input type="radio" id="player2SymbolX" name="player2Symbol" value="X" required>
+                                <label for="player2SymbolX">X</label>
+                                <input type="radio" id="player2SymbolO" name="player2Symbol" value="O" required checked>
+                                <label for="player2SymbolO">O</label>
+                            </div>
+                        </fieldset>
                     </div>
-                </fieldset>
+                </div>
                 <button type="button" id="startGame">Start Game!</button>
             </form>
         </div>
         <div class="currentPlayer"></div>
         <div class="board"></div>
+        <div class="scoreboard"></div>
+    </div>
+    <div class="footer">
+        <a href="https://github.com/kamillask">kamillask</a>
+        <a href="https://github.com/kamillask"><img src="./images/25231.png" alt="GitHub" height="20px" width="20px"></a>
     </div>
 </body>
 </html>
