@@ -74,12 +74,13 @@ fieldset{
 
 .currentPlayer{
     color: white;
+    font-size: 2rem;
 }
 
 .board{
     /* width: 50vw; */
     display: grid;
-    grid-template-columns: 200px 200px 200px;
+    grid-template-columns: 150px 150px 150px;
     gap: 0;
     align-items: center;
 }
@@ -88,8 +89,8 @@ fieldset{
     border: 1px solid black;
     background-color: white;
     color: black;
-    height: 200px;
-    width: 200px;
+    height: 150px;
+    width: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -100,6 +101,20 @@ fieldset{
     box-shadow: inset 0 0 10px black;
 }
 
+.scoreboard{
+    font-size: 2rem;
+    color: white;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.playerScoreCard1, .playerScoreCard2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .footer{
     display: flex;
     justify-content: center;
@@ -107,4 +122,19 @@ fieldset{
     bottom: 0;
     left: 0;
     right: 0;
+}
+
+#resultDialog[open]{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#resultDialog::backdrop{
+    backdrop-filter: blur(3px);
 }

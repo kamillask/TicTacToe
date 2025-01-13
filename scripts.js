@@ -125,6 +125,9 @@ const Gameboard = (function () {
 function Controller() {
     const startButton = document.querySelector("#startGame");
     const currentPlayerDisplay = document.querySelector(".currentPlayer");
+    const resultDialog = document.querySelector("#resultDialog");
+    const resultText = document.querySelector("#resultText");
+    const closeDialog = document.querySelector("#closeButton");
     let playerArray = [];
 
     const addFunctionToTiles = () => {
@@ -136,7 +139,6 @@ function Controller() {
                 const selectedRow = targetIDsplit[0];
                 const selectedColumn = targetIDsplit[1];
                 if(Gameboard.setSquare(selectedRow, selectedColumn, getCurrent())===false){
-                    // alert("selected square full");
                     return;
                 }
                 Gameboard.setSquare(selectedRow, selectedColumn, getCurrent());
@@ -152,17 +154,11 @@ function Controller() {
         const playerScoreCard1Score = document.querySelector(".playerScoreCard1Score");
         const playerScoreCard2Score = document.querySelector(".playerScoreCard2Score");
 
-        player1ScoreCardName.textContent = player1.getName();
-        player2ScoreCardName.textContent = player2.getName();
+        player1ScoreCardName.textContent = player1.getName() + "(" + player1.getSymbol() + ")";
+        player2ScoreCardName.textContent = player2.getName() + "(" + player2.getSymbol() + ")";
         playerScoreCard1Score.textContent = player1.getScore();
         playerScoreCard2Score.textContent = player2.getScore();
     }
-
-    const updateScoreboard = (player) => {
-        //assign id when creating scorecards in function above
-        //use id to determine who gets the score
-    }
-
 
     let currentPlayer;
     const getPlayers = () => {
@@ -171,11 +167,6 @@ function Controller() {
         const player2name = document.querySelector("#player2Name").value;
         const player1symbol = document.querySelector("input[name='player1Symbol']:checked").value;
         const player2symbol = document.querySelector("input[name='player2Symbol']:checked").value;
-
-        // const player1ScoreCardName = document.querySelector(".playerScoreCard1Name");
-        // const player2ScoreCardName = document.querySelector(".playerScoreCard2Name");
-        // const playerScoreCard1Score = document.querySelector(".playerScoreCard1Score");
-        // const playerScoreCard2Score = document.querySelector(".playerScoreCard2Score");
 
         if (player1symbol === player2symbol) {
             alert("Symbols must be unique.");
@@ -208,20 +199,28 @@ function Controller() {
         }
     };
 
+    closeDialog.addEventListener("click", () => {
+        resultDialog.close();
+    })
+
     const playGame = () => {
         Gameboard.displayBoard();
         addFunctionToTiles();
         if (Gameboard.checkWin(getCurrent())) {
             getCurrent().addScore();
-            alert(getCurrent().getName()+getCurrent().getScore());
             Gameboard.resetBoard();
             currentPlayerDisplay.textContent = getCurrent().getName().toUpperCase() + " WINS!";
+            resultText.textContent = getCurrent().getName().toUpperCase() + " WINS!";
+            resultDialog.showModal();
             return;
         } else if(Gameboard.checkTie()){
             Gameboard.resetBoard();
             currentPlayerDisplay.textContent = "IT'S A TIE!";
+            resultText.textContent = "IT'S A TIE!";
+            resultDialog.showModal();
             return;
         }
+        setScoreboard(playerArray[0], playerArray[1]);
         switchPlayer();
         currentPlayerDisplay.textContent = getCurrent().getName() + "'s turn(" + getCurrent().getSymbol() + ")";
     };
