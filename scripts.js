@@ -125,7 +125,6 @@ const Gameboard = (function () {
 function Controller() {
     const startButton = document.querySelector("#startGame");
     const currentPlayerDisplay = document.querySelector(".currentPlayer");
-    const scoreboardContainer = document.querySelector(".scoreboard");
     let playerArray = [];
 
     const addFunctionToTiles = () => {
@@ -147,13 +146,37 @@ function Controller() {
         });
     };
 
+    const setScoreboard = (player1, player2) => {
+        const player1ScoreCardName = document.querySelector(".playerScoreCard1Name");
+        const player2ScoreCardName = document.querySelector(".playerScoreCard2Name");
+        const playerScoreCard1Score = document.querySelector(".playerScoreCard1Score");
+        const playerScoreCard2Score = document.querySelector(".playerScoreCard2Score");
+
+        player1ScoreCardName.textContent = player1.getName();
+        player2ScoreCardName.textContent = player2.getName();
+        playerScoreCard1Score.textContent = player1.getScore();
+        playerScoreCard2Score.textContent = player2.getScore();
+    }
+
+    const updateScoreboard = (player) => {
+        //assign id when creating scorecards in function above
+        //use id to determine who gets the score
+    }
+
 
     let currentPlayer;
     const getPlayers = () => {
+        startButton.textContent = "Reset Game"
         const player1name = document.querySelector("#player1Name").value;
         const player2name = document.querySelector("#player2Name").value;
         const player1symbol = document.querySelector("input[name='player1Symbol']:checked").value;
         const player2symbol = document.querySelector("input[name='player2Symbol']:checked").value;
+
+        // const player1ScoreCardName = document.querySelector(".playerScoreCard1Name");
+        // const player2ScoreCardName = document.querySelector(".playerScoreCard2Name");
+        // const playerScoreCard1Score = document.querySelector(".playerScoreCard1Score");
+        // const playerScoreCard2Score = document.querySelector(".playerScoreCard2Score");
+
         if (player1symbol === player2symbol) {
             alert("Symbols must be unique.");
         } else  if(player1name==="" || player2name==="") {
@@ -165,6 +188,7 @@ function Controller() {
             playerArray.push(player1);
             playerArray.push(player2);
             currentPlayer = playerArray[0];
+            setScoreboard(player1, player2);
             Gameboard.clearBoard();
             Gameboard.resetBoard();
             Gameboard.displayBoard();
@@ -189,6 +213,7 @@ function Controller() {
         addFunctionToTiles();
         if (Gameboard.checkWin(getCurrent())) {
             getCurrent().addScore();
+            alert(getCurrent().getName()+getCurrent().getScore());
             Gameboard.resetBoard();
             currentPlayerDisplay.textContent = getCurrent().getName().toUpperCase() + " WINS!";
             return;
