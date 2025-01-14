@@ -53,13 +53,17 @@ fieldset{
 #startGame{
     font-size: 1.5rem;
     width: 100%;
+    
+}
+
+#startGame, #closeButton {
     background-color: white;
     border-radius: 5px;
     border: 2px solid black;
     padding: 3px 7px;
 }
 
-#startGame:hover{
+#startGame:hover, #closeButton:hover{
     box-shadow: inset 0 0 7px black;
 }
 
@@ -124,17 +128,26 @@ fieldset{
     right: 0;
 }
 
+/*have to add open or else it will always have the dialog open bs of display flex*/
 #resultDialog[open]{
+    background-color: #2B4162;
+    color: white;
     margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     font-size: 3rem;
-    padding: 10px;
+    padding: 10px 50px;
     border-radius: 5px;
+    border: 3px solid black;
 }
 
 #resultDialog::backdrop{
     backdrop-filter: blur(3px);
+}
+
+#closeButton{
+    width: 80%;
+    font-size: 1.5rem;
 }
